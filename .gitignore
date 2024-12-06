@@ -1,0 +1,5 @@
+#pip install -r requirements.txt
+venv
+__pycache__
+media
+db.sqlite3

@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&family=Jaro:opsz@6..72&family=Lobster&family=Pacifico&family=Protest+Strike&display=swap');
+
+
+.titulo{
+    font-family: "Jaro", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 63px;
+    color: rgb(4, 4, 71);
+
+}
+.subtitulo{
+    font-family: "Jaro", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 23px;
+    color: rgb(45, 45, 49);
+
+}
+.perbg{
+    background: rgba(78, 76, 100, 0.247);
+    color: aliceblue;
+    font-family: "Jaro", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 23px;
+}
+.contimg{
+    max-width: 400px;
+    max-height: 260px;
+    border-radius: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.contenrow{
+    border: 2px rgb(0, 110, 255) solid;
+    border-radius: 20px;
+    padding: 30px;
+}
+.texttitle{
+    font-size: 35px;
+    font-weight: bold;
+    color: rgb(0, 4, 59);
+
+}
+.fixed-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050; /* Asegura que esté encima de otros elementos */
+}
+
+/* Botón de flecha hacia arriba */
+.scroll-to-top {
+    position: fixed;
+    bottom: 80px; /* Justo por encima del otro botón */
+    right: 20px;
+    z-index: 1050;
+   
+    color: white;
+}

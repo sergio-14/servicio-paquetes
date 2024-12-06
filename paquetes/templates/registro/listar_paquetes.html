@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Listado de Paquetes
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5 contenrow">
+    <h2 class="texttitle">Listado de Paquetes</h2>
+    <!-- Filtros -->
+    <div class="row g-3 mb-4">
+        <!-- Filtro por Fecha -->
+        <div class="col-md-6">
+            <form method="GET">
+                <label for="fecha" class="form-label">Filtrar por Fecha</label>
+                <input type="date" id="fecha" name="fecha" class="form-control" value="{{ fecha_filtro }}">
+                {% if cliente_filtro %}
+                    <input type="hidden" name="cliente" value="{{ cliente_filtro }}">
+                {% endif %}
+                <button type="submit" class="btn btn-primary mt-2">Filtrar por Fecha</button>
+            </form>
+        </div>
+
+        <!-- Filtro por Cliente -->
+        <div class="col-md-6">
+            <form method="GET">
+                <label for="cliente" class="form-label">Filtrar por Cliente</label>
+                <input type="text" id="cliente" name="cliente" class="form-control" placeholder="Nombre de cliente" value="{{ cliente_filtro }}">
+                {% if fecha_filtro %}
+                    <input type="hidden" name="fecha" value="{{ fecha_filtro }}">
+                {% endif %}
+                <button type="submit" class="btn btn-primary mt-2">Filtrar por Cliente</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de paquetes -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha de Envío</th>
+                <th>Cliente</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paquete in paquetes %}
+            <tr>
+                <td>{{ paquete.fecha_envio }}</td>
+                <td>{{ paquete.cliente.user.get_full_name }}</td>
+                <td>{{ paquete.descripcion }}</td>
+                <td>{{ paquete.precio }}</td>
+                <td class="text-end">
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detalleModal{{ paquete.id }}">Ver Detalles</button>
+                    <a href="" class="btn btn-warning btn-sm">Editar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Total de ganancias -->
+    <div class="mt-4">
+        <p><strong>Total de Ganancias:</strong> {{ total_ganancias }} Bs.</p>
+    </div>
+
+    <!-- Paginación -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if paquetes.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if fecha_filtro %}&fecha={{ fecha_filtro }}{% endif %}{% if cliente_filtro %}&cliente={{ cliente_filtro }}{% endif %}">
+                        Primera
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paquetes.previous_page_number }}{% if fecha_filtro %}&fecha={{ fecha_filtro }}{% endif %}{% if cliente_filtro %}&cliente={{ cliente_filtro }}{% endif %}">
+                        Anterior
+                    </a>
+                </li>
+            {% endif %}
+            <li class="page-item active"><a class="page-link">{{ paquetes.number }}</a></li>
+            {% if paquetes.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paquetes.next_page_number }}{% if fecha_filtro %}&fecha={{ fecha_filtro }}{% endif %}{% if cliente_filtro %}&cliente={{ cliente_filtro }}{% endif %}">
+                        Siguiente
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paquetes.paginator.num_pages }}{% if fecha_filtro %}&fecha={{ fecha_filtro }}{% endif %}{% if cliente_filtro %}&cliente={{ cliente_filtro }}{% endif %}">
+                        Última
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<!-- Modal para ver detalles del paquete -->
+{% for paquete in paquetes %}
+<div class="modal fade" id="detalleModal{{ paquete.id }}" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detalleModalLabel">Detalles del Paquete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                {% if paquete.imagen %}
+                <img src="{{ paquete.imagen.url }}" class="img-fluid contimg mb-3" alt="Imagen del paquete">
+                {% else %}
+                <p>No hay imagen disponible</p>
+                {% endif %}
+                <p><strong>Descripción:</strong> {{ paquete.descripcion }}</p>
+                <p><strong>Peso:</strong> {{ paquete.peso }} kg</p>
+                <p><strong>Dimensiones:</strong> {{ paquete.dimensiones }}</p>
+                <p><strong>Estado:</strong> {{ paquete.estado }}</p>
+                <p><strong>Precio:</strong> {{ paquete.precio }} Bs.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}

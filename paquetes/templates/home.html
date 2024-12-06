@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Home
+{% endblock title %}
+
+{% block content %}
+
+<div class="container my-5 ">
+    
+    <div class="row">
+      
+        <div class="col-12 col-md-6">
+            <img src="{% static 'img/logoh.png' %}" class="img-fluid" alt="Imagen ejemplo">
+        </div>
+        
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-center text-end">
+            <h2 class="mb-3 titulo text-end">Servicio de Transporte N° 1 en Trinidad </h2>
+            <p class="mb-3 subtitulo">Descripción detallada del producto. Aquí puedes agregar información adicional sobre lo que estás ofreciendo y por qué es útil para el usuario.</p>
+           
+            <a href="https://wa.me/11234567890" class="btn btn-success w-50 " target="_blank">
+                <i class="bi bi-whatsapp"></i> Enviar WhatsApp
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

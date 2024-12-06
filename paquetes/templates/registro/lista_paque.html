@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Registrar Envío
+{% endblock title %}
+
+{% block content %}
+<h2>Lista de Paquetes</h2>
+
+{% if paquetes %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Descripción</th>
+        <th>Estado del Envio</th>
+        <th>Fecha Envio</th>
+        <th>Precio</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for paquete in paquetes %}
+        <tr>
+          <td>{{ paquete.descripcion }}</td>
+          <td>{{ paquete.estado }}</td>
+          <td>{{ paquete.fecha_envio }}</td>
+          <td>{{ paquete.precio }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No tienes paquetes registrados.</p>
+{% endif %}
+{% endblock content %}
