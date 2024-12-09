@@ -67,3 +67,42 @@ def lista_paque(request):
     paquetes = Paquete.objects.filter(cliente=cliente)
     
     return render(request, 'registro/lista_paque.html', {'paquetes': paquetes})
+
+from .models import Paquete, EstadoPaquete
+
+def cambiar_estado_paquete(request, paquete_id):
+    paquete = get_object_or_404(Paquete, id=paquete_id)
+   
+    entregado_estado = EstadoPaquete.objects.get(nombre_estado="Entregado")
+    paquete.estado = entregado_estado
+    paquete.save()
+
+    return redirect('listar_paquetes') 
+
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from .models import Paquete
+
+def generar_factura(request, paquete_id):
+   
+    paquete = Paquete.objects.get(id=paquete_id)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="factura_{paquete.id}.pdf"'
+
+    p = canvas.Canvas(response, pagesize=letter)
+
+    p.drawString(100, 750, f"Factura para el Paquete: {paquete.descripcion}")
+    p.drawString(100, 730, f"Cliente: {paquete.cliente.user.get_full_name()}")
+    p.drawString(100, 710, f"Peso: {paquete.peso} kg")
+    p.drawString(100, 690, f"Dimensiones: {paquete.dimensiones}")
+    p.drawString(100, 670, f"Dirección de destino: {paquete.direccion_destino}")
+    p.drawString(100, 630, f"Fecha de envío: {paquete.fecha_envio}")
+    p.drawString(100, 610, f"Estado: {paquete.estado.nombre_estado}")
+    p.drawString(100, 590, f"Precio: Bs {paquete.precio}")
+
+    p.showPage()
+    p.save()
+
+    return response

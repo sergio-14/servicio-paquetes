@@ -29,5 +29,7 @@ urlpatterns = [
     path('listar_Registro_envios/', views.listar_paquetes, name='listar_paquetes'),
     path('paquete/<int:paquete_id>/', views.ver_detalle_paquete, name='detalle_paquete'),
     path('listapaquetess/', views.lista_paque, name='lista_paque'),
+    path('cambiar_estado_paquete/<int:paquete_id>/', views.cambiar_estado_paquete, name='cambiar_estado_paquete'),
+    path('factura/<int:paquete_id>/', views.generar_factura, name='generar_factura'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
